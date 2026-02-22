@@ -37,6 +37,7 @@
 #define WIFI_SSID    "iPhone"
 #define WIFI_PASS    "hacklondon"
 #define BACKEND_URL  "https://classbot-pxae.onrender.com/api/data"
+#define DASHBOARD_URL "http://172.20.10.3:5000/api/sensors/update"
 
 // ── Alert thresholds ──────────────────────────────────
 #define TEMP_MAX    35.0
@@ -136,6 +137,23 @@ void postToBackend(float temp, float humidity, int light, int noise, bool alert,
   json += "}";
   int code = http.POST(json);
   Serial.printf("Backend POST: %d\n", code);
+  http.end();
+}
+
+void postToDashboard(float temp, float humidity, int light, int noise) {
+  if (WiFi.status() != WL_CONNECTED) return;
+  HTTPClient http;
+  http.begin(DASHBOARD_URL);
+  http.setTimeout(5000);
+  http.addHeader("Content-Type", "application/json");
+  String json = "{";
+  json += "\"temperature\":" + String(temp, 1) + ",";
+  json += "\"humidity\":" + String(humidity, 1) + ",";
+  json += "\"light_level\":" + String(light) + ",";
+  json += "\"noise_level\":" + String(noise);
+  json += "}";
+  int code = http.POST(json);
+  Serial.printf("Dashboard POST: %d\n", code);
   http.end();
 }
 
@@ -261,4 +279,7 @@ void loop() {
 
   // Post to backend
   postToBackend(t, h, lightLevel, soundLevel, alert, alertMsg, timeOnly);
+  
+  // Post to local dashboard
+  postToDashboard(t, h, lightLevel, soundLevel);
 }

@@ -48,18 +48,26 @@ def read_attendance_stats():
                 'students': []
             }
         
+        # Only count students detected in last 30 seconds as currently present
+        cutoff_time = datetime.now() - timedelta(seconds=30)
         students = {}
+        
         with open(attendance_file, 'r') as f:
             reader = csv.DictReader(f)
             for row in reader:
-                name = row['name']
-                # Always update to keep the LATEST entry per student
-                status = row['status'].upper().replace('-', '-')  # "on-time" or "late"
-                students[name] = {
-                    'name': name,
-                    'status': status,
-                    'time': row['timestamp']
-                }
+                try:
+                    timestamp = datetime.strptime(row['timestamp'], '%Y-%m-%d %H:%M:%S')
+                    if timestamp >= cutoff_time:
+                        name = row['name']
+                        # Keep the LATEST entry per student in recent window
+                        status = row['status'].upper().replace('-', '-')  # "on-time" or "late"
+                        students[name] = {
+                            'name': name,
+                            'status': status,
+                            'time': row['timestamp']
+                        }
+                except:
+                    continue
         
         total = len(students)
         on_time = sum(1 for s in students.values() if 'on-time' in s['status'].lower() or 'on_time' in s['status'].lower())
