@@ -1,0 +1,141 @@
+╔══════════════════════════════════════════════════════════╗
+║  CLASSROOM AI - START HERE (With Virtual Environment)   ║
+╚══════════════════════════════════════════════════════════╝
+
+Everything is now configured to use a Python virtual environment (venv)
+for clean, isolated package management.
+
+═══════════════════════════════════════════════════════════
+  STEP 1: Initial Setup (First Time Only)
+═══════════════════════════════════════════════════════════
+
+cd ~/classroom_ai
+bash setup.sh
+
+This will:
+  ✓ Create Python virtual environment (~/classroom_env/)
+  ✓ Install system packages (picamera2, opencv, etc.)
+  ✓ Install Python packages in venv (insightface, onnxruntime)
+  ✓ Takes ~5-10 minutes
+
+═══════════════════════════════════════════════════════════
+  STEP 2: Test Camera Hardware
+═══════════════════════════════════════════════════════════
+
+# Quick test with rpicam tools
+rpicam-hello -t 5000
+
+# If that works, test with Python
+bash quick_test.sh
+
+Expected: Live camera feed window with FPS counter
+Actions: Press 's' to save image, 'q' to quit
+
+═══════════════════════════════════════════════════════════
+  STEP 3: Verify Known Faces
+═══════════════════════════════════════════════════════════
+
+ls -la ~/classroom_ai/known_faces/
+
+You should see folders for each person:
+  known_faces/
+  ├── asad/
+  ├── maaz/
+  └── makarim/
+
+Each folder needs 2-5 clear face photos (.jpg or .png)
+
+═══════════════════════════════════════════════════════════
+  STEP 4: Run the Full System
+═══════════════════════════════════════════════════════════
+
+bash run.sh
+
+What you'll see:
+  1. "Loading InsightFace model..." (takes ~10 seconds)
+  2. "Loaded X known people: ..."
+  3. Camera feed window with:
+     - Face detection boxes
+     - Name labels + similarity scores
+     - Attendance status (ON-TIME/LATE)
+     - Concentration indicators (FORWARD/AWAY)
+     - Stats panel (FPS, counts, timer)
+
+Controls: Press 'q' or ESC to quit
+
+═══════════════════════════════════════════════════════════
+  STEP 5: Check Logs
+═══════════════════════════════════════════════════════════
+
+# View attendance
+cat ~/classroom_ai/logs/attendance.csv
+
+# View concentration  
+cat ~/classroom_ai/logs/concentration.csv
+
+═══════════════════════════════════════════════════════════
+  TROUBLESHOOTING
+═══════════════════════════════════════════════════════════
+
+❌ "venv not found"
+   → bash setup.sh
+
+❌ "InsightFace not installed"  
+   → source ~/classroom_env/bin/activate
+   → pip install insightface onnxruntime
+
+❌ "No camera detected"
+   → Check connection: rpicam-hello -t 5000
+   → Enable camera: sudo raspi-config → Interface → Camera
+
+❌ "No known faces loaded"
+   → Add photos to known_faces/person_name/ folders
+
+❌ Low FPS / Laggy
+   → Edit config.py: increase FRAME_SKIP to 3 or 4
+   → Reduce resolution in config.py
+
+═══════════════════════════════════════════════════════════
+  QUICK REFERENCE
+═══════════════════════════════════════════════════════════
+
+Setup (first time):     bash setup.sh
+Run system:             bash run.sh  
+Test camera only:       bash quick_test.sh
+Run system tests:       bash test_system.sh
+
+Manual Python usage:
+  source ~/classroom_env/bin/activate
+  python3 classroom_monitor_picam.py
+  deactivate
+
+═══════════════════════════════════════════════════════════
+  FEATURES IMPLEMENTED
+═══════════════════════════════════════════════════════════
+
+✓ Face Detection (InsightFace SCRFD)
+✓ Face Recognition (embedding similarity)
+✓ Attendance Tracking (on-time vs late)
+✓ Concentration Monitoring (head pose: yaw, pitch, roll)
+✓ CSV Logging (timestamped records)
+✓ Live Visualization (real-time overlays)
+✓ Pi Camera Support (native picamera2)
+✓ Virtual Environment (isolated packages)
+✓ Performance Optimization (frame skip, low latency)
+
+═══════════════════════════════════════════════════════════
+  DOCUMENTATION
+═══════════════════════════════════════════════════════════
+
+TEST_GUIDE.md    - Detailed testing instructions
+VENV_INFO.md     - Virtual environment documentation
+QUICKSTART.md    - Original quick start guide
+README.md        - Project overview
+config.py        - Configuration settings
+
+═══════════════════════════════════════════════════════════
+
+For production use, edit config.py:
+  ON_TIME_WINDOW_SECONDS = 1200  # 20 minutes instead of 60 sec
+
+Ready to start? Run:  bash setup.sh

@@ -1,0 +1,60 @@
+{
+  "responses": {
+    "127.0.0.1": {
+      "answers": {
+        "1": 0,
+        "2": 1,
+        "3": 0
+      },
+      "timestamp": "2026-02-22T06:22:25.208531"
+    }
+  },
+  "quiz": {
+    "title": "Quick Energy Break!",
+    "description": "Let's take a quick interactive break",
+    "questions": [
+      {
+        "id": 1,
+        "type": "poll",
+        "question": "How are you feeling about today's material so far?",
+        "options": [
+          "\ud83d\ude0a Clear and following along",
+          "\ud83e\udd14 Some parts are confusing",
+          "\ud83d\ude35 Need more explanation",
+          "\ud83d\ude80 Ready for more challenges"
+        ],
+        "correct_answer": null,
+        "points": 5
+      },
+      {
+        "id": 2,
+        "type": "poll",
+        "question": "What would help you engage better right now?",
+        "options": [
+          "Quick recap of key points",
+          "A practical example",
+          "A short break",
+          "Continue with new material"
+        ],
+        "correct_answer": null,
+        "points": 5
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Which teaching method helps you learn best?",
+        "options": [
+          "Visual diagrams and charts",
+          "Step-by-step explanations",
+          "Hands-on practice",
+          "Real-world examples"
+        ],
+        "correct_answer": null,
+        "points": 5
+      }
+    ],
+    "generated_at": "2026-02-22T06:20:52.353250",
+    "source": "auto_trigger",
+    "trigger_reason": "low_concentration"
+  }
+}
