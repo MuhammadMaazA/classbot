@@ -2,7 +2,7 @@
 .env
 
 # Python
-__pycache__/
+*__pycache__/
 *.py[cod]
 *$py.class
 *.so
@@ -24,6 +24,10 @@ build/
 # Logs
 *.log
 logs/*.csv
+
+# Runtime data
+dashboard/dashboard/
+**/sensor_data.json
 
 # OS
 .DS_Store
