@@ -9,6 +9,7 @@
 #include <WiFi.h>
 #include <time.h>
 #include <HTTPClient.h>
+#include <WiFiClientSecure.h>
 
 // ── Pins ──────────────────────────────────────────────
 #define LDR_PIN     14
@@ -118,8 +119,10 @@ void updateValue(int y, String value, uint16_t color) {
 // ── Backend POST ──────────────────────────────────────
 void postToBackend(float temp, float humidity, int light, int noise, bool alert, String alertMsg, char* timeStr) {
   if (WiFi.status() != WL_CONNECTED) return;
+  WiFiClientSecure client;
+  client.setInsecure();
   HTTPClient http;
-  http.begin(BACKEND_URL);
+  http.begin(client, BACKEND_URL);
   http.setTimeout(30000);
   http.addHeader("Content-Type", "application/json");
   String json = "{";
