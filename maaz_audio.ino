@@ -35,7 +35,7 @@
 // ── WiFi & Backend ────────────────────────────────────
 #define WIFI_SSID    "iPhone"
 #define WIFI_PASS    "hacklondon"
-#define BACKEND_URL  "https://YOUR_BACKEND_URL/api/data"
+#define BACKEND_URL  "https://classbot-pxae.onrender.com/api/data"
 
 // ── Alert thresholds ──────────────────────────────────
 #define TEMP_MAX    35.0
