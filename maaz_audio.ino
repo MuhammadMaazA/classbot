@@ -120,6 +120,7 @@ void postToBackend(float temp, float humidity, int light, int noise, bool alert,
   if (WiFi.status() != WL_CONNECTED) return;
   HTTPClient http;
   http.begin(BACKEND_URL);
+  http.setTimeout(30000);
   http.addHeader("Content-Type", "application/json");
   String json = "{";
   json += "\"time\":\"" + String(timeStr) + "\",";
